@@ -3,13 +3,16 @@ import React, {useState} from 'react'
 
 export default function PokemonList({pokemon}) {
 
-    console.log('llegamso a pokemonlist')
-    console.log(pokemon)
-
+  console.log('llegamso a pokemonlist')
+  console.log(pokemon)
+  let count = 0;
   return (
-    <div>{pokemon.map(item =>(
-        <div>{pokemon.name}</div>
-    ))}
+    <div>
+       {console.log(pokemon)}
+      {pokemon.map(item => (
+      <div>nombre: {item.name} {item.url}</div>
+        
+      ))}
     </div>
   )
 }
