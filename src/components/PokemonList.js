@@ -1,4 +1,5 @@
 import React, {useState} from 'react'
+import Pokemon from './Pokemon';
 
 
 export default function PokemonList({pokemon}) {
@@ -7,11 +8,13 @@ export default function PokemonList({pokemon}) {
   console.log(pokemon)
   let count = 0;
   return (
-    <div>
-       {console.log(pokemon)}
-      {pokemon.map(item => (
-      <div>nombre: {item.name} {item.url}</div>
-        
+    <div className="container">
+  
+      {pokemon.map((item, i)  => (
+      <div key={i}>nombre: {item.name}
+      
+        <Pokemon url={item.url}/>
+      </div>
       ))}
     </div>
   )
