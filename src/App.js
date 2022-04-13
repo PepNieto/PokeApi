@@ -1,19 +1,20 @@
 import React, {useEffect, useState} from 'react';
 import PokemonList from './components/PokemonList';
-import { PokemonListapi } from './config/api';
+import { getPokemonData, PokemonListapi } from './config/api';
 import axios from 'axios'
 import Pagination from './components/Pagination';
 import Header from './components/Header';
 import { makeStyles } from '@mui/styles';
 
 function App() {
-  const [pokemon, setPokemon] = useState();
+  const [pokemon, setPokemon] = useState([]);
+  const [pokemons, setPokemons] = useState([]);
   const [limit, setLimit] = useState(20);
   const [offset, setOffset] = useState(0);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState("https://pokeapi.co/api/v2/pokemon");
   const [nextPage, setNextPage] = useState();
-  const [prevPage, setPrevPage] = useState();
+  const [prevPage, setPrevPage] = useState(); 
 
   const useStyle = makeStyles(() => ({
     App:{
@@ -30,12 +31,24 @@ function App() {
       setNextPage(consulta.data.next);
       setPrevPage(consulta.data.previous);
       setPokemon(consulta.data.results);
+      
+      console.log('consulta')
+      console.log(consulta)
+      const promises = consulta.data.results.map(async (pokemon) => {
+        return await getPokemonData(pokemon.url)
+      })
+      const results = await Promise.all(promises)
+      console.log('results ')
+      console.log(results)
+      setPokemon(results);
       setLoading(false);
+      console.log('seteamos los')
+      console.log(pokemons);
     };
     
     consultaAPI();
   }, [currentPage]);
-  
+
   function gotoNextPage(){
     setCurrentPage(nextPage);
    
@@ -45,13 +58,13 @@ function App() {
     setCurrentPage(prevPage)
     
   }
-  
+  console.log('punto de control 1')
     return(
     <div>
       {loading ? <h1>Loading</h1> :(
         <>
           <Header/>
-          <PokemonList pokemon={pokemon}/>
+          <PokemonList pokedata={pokemon}/>
           <Pagination
           gotoNextPage={gotoNextPage}
           gotoPrevPage={gotoPrevPage}
