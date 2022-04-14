@@ -1,0 +1,39 @@
+.container{
+    margin-top: 69px;
+    display: grid;
+    grid-template-columns: repeat(4 , 1fr);
+   
+    grid-gap: 10px;
+    grid-auto-rows: minmax(100px, auto);
+    margin-left:20%;
+    margin-right: 20%;
+}
+.pokemonCard {
+    
+    display:flex;
+    box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.25);
+    
+    border-radius: 3px;
+  }
+.leftCard{
+    display:flex
+}
+.rightCard{
+    display:column;
+    flex:1
+}
+
+.pokemonName{
+        text-transform: capitalize;
+}
+.card-top{
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-right:5%;
+}
+.card-bottom{
+    display:flex;
+    margin-bottom: 10%;
+    border-radius: 25px;
+}
