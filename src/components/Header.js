@@ -1,6 +1,6 @@
 import { Button, TextField } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import React from 'react'
+import React, { useState } from 'react'
 import Pokefoto from './resources/Poke_logo.svg.png'
 
 const useStyles = makeStyles((theme) => ({
@@ -22,7 +22,16 @@ const useStyles = makeStyles((theme) => ({
   
   }));
 
+
+
 function Header() {
+
+  function handleSearch(e){
+    setQuery(e.target.value)
+  }  
+
+  const [query, setQuery] = useState('');
+  
   return (
     <div style={{display:'flex', alignItems:'center',justifyContent:'center'}}>
         <div style={{display:'column'}}>

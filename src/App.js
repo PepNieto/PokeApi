@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import PokemonList from './components/PokemonList';
 import { getPokemonData, PokemonListapi } from './config/api';
 import axios from 'axios'
@@ -11,10 +11,9 @@ function App() {
   const [pokemons, setPokemons] = useState([]);
   const [limit, setLimit] = useState(20);
   const [offset, setOffset] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState("https://pokeapi.co/api/v2/pokemon");
   const [nextPage, setNextPage] = useState();
-  const [prevPage, setPrevPage] = useState(); 
+  const [currentPage, setCurrentPage] = useState('https://pokeapi.co/api/v2/pokemon/?offset=0&limit=20');
+  const [loadingMore, setLoadingMore] = useState(true);
 
   const useStyle = makeStyles(() => ({
     App:{
@@ -23,54 +22,46 @@ function App() {
       minHeight: "100vh",
     }
   }));
+//observador
+let observador = new IntersectionObserver((entradas, observador) => {
+  console.log(entradas)
+}, {
+  rootMargin: '0px 0px 0px 0px',
+  threshold: 1.0
+});
 
   useEffect(() => {
+    setLoadingMore(true);
     const consultaAPI = async () => {
-      setLoading(true);
-      const consulta = await axios( currentPage );
-      setNextPage(consulta.data.next);
-      setPrevPage(consulta.data.previous);
-      setPokemon(consulta.data.results);
+        console.log('consultaAPI')
+        const consulta = await PokemonListapi(currentPage);
+        const newPokemon = [];
+        console.log(consulta.data.next)
+        const promises = consulta.data.results.map(async (pokemon) => {
+          return await getPokemonData(pokemon.url)
+        })
+        const results = await Promise.all(promises)
+        setPokemon(consulta.data)
+        setPokemons((oldPokemon) => [ ...oldPokemon, ...results])
+        setLoadingMore(false)
+      };
+      consultaAPI();
       
-      console.log('consulta')
-      console.log(consulta)
-      const promises = consulta.data.results.map(async (pokemon) => {
-        return await getPokemonData(pokemon.url)
-      })
-      const results = await Promise.all(promises)
-      console.log('results ')
-      console.log(results)
-      setPokemon(results);
-      setLoading(false);
-      console.log('seteamos los')
-      console.log(pokemons);
-    };
-    
-    consultaAPI();
-  }, [currentPage]);
 
-  function gotoNextPage(){
-    setCurrentPage(nextPage);
-   
-  }   
-
-  function gotoPrevPage(){
-    setCurrentPage(prevPage)
+    }, [currentPage]);
     
-  }
-  console.log('punto de control 1')
+
+  
+
     return(
     <div>
-      {loading ? <h1>Loading</h1> :(
+     
         <>
           <Header/>
-          <PokemonList pokedata={pokemon}/>
-          <Pagination
-          gotoNextPage={gotoNextPage}
-          gotoPrevPage={gotoPrevPage}
-          />
+          <PokemonList pokedata={pokemons} pokemon={pokemon} setCurrentPage={setCurrentPage}/>
+          <div className='Loading'>Loading</div>
         </>
-      )}  
+      
     </div>
     
 
