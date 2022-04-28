@@ -4,8 +4,9 @@ import { searchPokemon } from '../config/api';
 import PokemonCard from './card/PokemonCard';
 import InfiniteScroll from 'react-infinite-scroll-component';
 //import Pagination from './components/Pagination';
-export default function PokemonList({pokedata,pokemon, loading, setCurrentPage}) {
-console.log('pokedata')
+export default function PokemonList({pokedata, pokemon, loading, setCurrentPage}) {
+console.log('pokemon')
+console.log(pokemon.count)
   return (  
   <InfiniteScroll
     dataLength={pokedata.length}

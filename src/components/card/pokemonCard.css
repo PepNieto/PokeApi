@@ -15,6 +15,11 @@
     
     border-radius: 3px;
   }
+
+ .pokemonCard:hover {
+    cursor: pointer;
+  }
+
 .leftCard{
     display:flex;
     margin-top:3%;

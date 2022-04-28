@@ -14,17 +14,28 @@ const theme = createTheme({
 
 
 function PokemonCard(pokemon) {
-    
+  console.log('image');
+  console.log(pokemon['data']['sprites']);
+  
+
   const lastCard = useCallback(node => {
     console.log(node)
   })
 
     return (
-
+      
     <div>
         <div className="pokemonCard">
             <div className="leftCard">  
-                <div className="pokemonSprite"><img height="100" src={pokemon.data.sprites.front_default}/></div> 
+            {pokemon.data.sprites.other.home.front_default ? <div className="pokemonSprite"><img height="100" src={pokemon.data.sprites.other.home.front_default}/></div> 
+            :
+            pokemon.data.sprites.front_default ? <div className="pokemonSprite"><img height="100" src={pokemon.data.sprites.front_default}/></div>
+            :
+            pokemon['data']['sprites']['other']['official-artwork']['front_default'] ? <div className="pokemonSprite"><img height="100" src={pokemon['data']['sprites']['other']['official-artwork']['front_default']}/></div>
+            : 
+           <h3>404 img not found</h3>
+          
+            }     
             </div>
           <div className="rightCard">
               <div className='card-top'>
