@@ -5,6 +5,8 @@ import axios from 'axios'
 import Pagination from './components/Pagination';
 import Header from './components/Header';
 import { makeStyles } from '@mui/styles';
+import { BrowserRouter as Router,Route, Routes } from "react-router-dom";
+import PokemonDetails from './pages/PokemonDetails';
 
 function App() {
   const [pokemon, setPokemon] = useState([]);
@@ -54,15 +56,19 @@ let observador = new IntersectionObserver((entradas, observador) => {
   
 
     return(
-    <div>
+
      
-        <>
-          <Header/>
-          <PokemonList pokedata={pokemons} pokemon={pokemon} setCurrentPage={setCurrentPage}/>
-          <div className='Loading'>Loading</div>
-        </>
+        <Router>
+          
+            
+            <Header/>
+            <Routes>
+              <Route path="/" element={<PokemonList pokedata={pokemons} pokemon={pokemon} setCurrentPage={setCurrentPage}/>}/>
+              <Route path="/:pokename" element={<PokemonDetails/>}/>
+          </Routes>  
+        </Router>
       
-    </div>
+
     
 
   );

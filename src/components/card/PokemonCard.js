@@ -5,6 +5,9 @@ import './pokemonCard.css'
 import { createTheme } from '@mui/material/styles';
 import green from '@mui/material/colors/green';
 import { ChangeColor } from '../../config/typeColors';
+import { useNavigate } from "react-router-dom";
+
+
 
 const theme = createTheme({
   palette: {
@@ -14,18 +17,24 @@ const theme = createTheme({
 
 
 function PokemonCard(pokemon) {
+  const navigate = useNavigate();
   console.log('image');
   console.log(pokemon['data']['sprites']);
   
+  
+
+ 
+
 
   const lastCard = useCallback(node => {
     console.log(node)
   })
-
+  console.log('poke');
+  console.log(pokemon);
     return (
       
     <div>
-        <div className="pokemonCard">
+        <div className="pokemonCard" onClick={() => navigate(pokemon.data.name, pokemon)}>
             <div className="leftCard">  
             {pokemon.data.sprites.other.home.front_default ? <div className="pokemonSprite"><img height="100" src={pokemon.data.sprites.other.home.front_default}/></div> 
             :
